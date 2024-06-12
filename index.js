@@ -15,7 +15,8 @@ const db = new pg.Client({
     database: process.env.PSQL_DATABASE,
     password: process.env.PSQL_PASSWORD,
     port: process.env.PSQL_PORT,
-    connectionString: process.env.PSQL_DATABASE_URL
+    connectionString: process.env.PSQL_DATABASE_URL,
+    ssl:true
 })
 
 db.connect()
