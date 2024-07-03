@@ -78,9 +78,28 @@ app.post("/bookdata", async (req, res) => {
         console.log(error)
     }
 })
-app.post('/notes',(req,res)=>{
+app.get('/notes/:book_id',async(req,res)=>{
+    const bookId = req.params
+    const book_id = parseInt(bookId.book_id)
+    try {
+        const response = await db.query('SELECT note FROM note WHERE book_id = $1',[book_id])
+        const result = response.rows
+        res.json(result) 
+    } catch (error) {
+        console.error(error)
+    }
+})
+app.post('/notes/:book_id', async (req,res)=>{
+   try {
     const response = req.body
-    console.log(response)
+    const bookId = req.params
+    const note = response.notes.note
+    const book_id = parseInt(bookId.book_id)
+    await db.query('INSERT INTO note (note,book_id) VALUES ($1,$2)',[note,book_id])
+   } catch (error) {
+    console.error(error)
+   }
+    
 })
 app.listen(port, () => {
 
